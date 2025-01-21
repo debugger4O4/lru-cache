@@ -1,5 +1,10 @@
 package ru.debugger404.app.util;
 
+/**
+ * Фиктивный узел.
+ * @param <T>
+ */
+
 public class DummyNode<T> implements LinkedListNode<T> {
     private DoublyLinkedList<T> list;
 

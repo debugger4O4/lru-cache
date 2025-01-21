@@ -1,5 +1,10 @@
 package ru.debugger404.app.util;
 
+/**
+ * Связанный список узлов.
+ * @param <V>
+ */
+
 public interface LinkedListNode<V> {
     boolean hasElement();
 

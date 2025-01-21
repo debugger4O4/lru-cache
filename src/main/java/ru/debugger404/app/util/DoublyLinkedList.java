@@ -4,6 +4,15 @@ import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * DoubleblyLinkedList в Java — это тип связанного списка, в котором каждый узел, помимо хранения данных, имеет две ссылки.
+ * Первая ссылка указывает на предыдущий узел, а другая — на следующий узел списка.
+ * DoubleblyLinkedList позволяет обходить список в обоих направлениях. Также в нём легко добавлять и удалять элементы,
+ * не нужно перебирать весь список для поиска предыдущего узла.
+ * Один из основных недостатков DoubleblyLinkedList — каждому узлу требуется дополнительное место в памяти для хранения
+ * предыдущего указателя.
+ * @param <T>
+ */
 public class DoublyLinkedList<T> {
 
     private DummyNode<T> dummyNode;

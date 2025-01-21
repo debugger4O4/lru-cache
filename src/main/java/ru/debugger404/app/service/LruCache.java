@@ -9,11 +9,23 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * Реализация LRU кэша.
+ * @param <K>
+ * @param <V>
+ */
+
 public class LruCache<K, V> implements Cache<K, V> {
 
     private int size;
     private Map<K, LinkedListNode<CacheElement<K, V>>> linkedListNodeMap;
     private DoublyLinkedList<CacheElement<K, V>> doublyLinkedList;
+    /*
+    ReentrantReadWriteLock — это реалиализация интерфейса ReadWriteLock, которая предоставляет пару блокировок для
+    чтения и записи. Используется, когда в системе много операций чтения и мало операций записи. Позволяет нескольким
+    потокам читать данные параллельно, при этом только один поток может писать данные за раз. Это улучшает производительность
+     за счёт уменьшения конкуренции между потоками.
+     */
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     public LruCache(int size) {
@@ -44,7 +56,7 @@ public class LruCache<K, V> implements Cache<K, V> {
 
     @Override
     public Optional<V> get(K key) {
-        this.lock.readLock().lock();
+        this.lock.readLock().lock(); // Блокировка чтения.
         try {
             LinkedListNode<CacheElement<K, V>> linkedListNode = this.linkedListNodeMap.get(key);
             if (linkedListNode != null && !linkedListNode.isEmpty()) {
@@ -83,8 +95,13 @@ public class LruCache<K, V> implements Cache<K, V> {
         }
     }
 
+    /*
+     Безопасная (с точки зрения многопоточности) операцию удаления последнего элемента из двусвязного списка и очистку
+     соответствующей мапы.
+     */
     private boolean evictElement() {
-        this.lock.writeLock().lock();
+        this.lock.writeLock().lock(); // Блокировка записи.
+
         try {
             LinkedListNode<CacheElement<K, V>> linkedListNode = doublyLinkedList.removeTail();
             if (linkedListNode.isEmpty()) {

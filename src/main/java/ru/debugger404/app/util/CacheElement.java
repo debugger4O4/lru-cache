@@ -1,5 +1,11 @@
 package ru.debugger404.app.util;
 
+/**
+ * Элемент кэша.
+ * @param <K>
+ * @param <V>
+ */
+
 public class CacheElement<K,V> {
     private K key;
     private V value;
